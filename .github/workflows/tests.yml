@@ -35,12 +35,12 @@ jobs:
       - name: download artifacts
         uses: actions/download-artifact@v3
       - run: sudo apt install zip && zip -r allure-results.zip allure-results
-      - run: ls
+      - run: ls && pwd
       - run: >
           UUID=$(curl -X "POST"   "http://${{ secrets.SERVER }}/api/result"
           -H "accept: */*"
           -H "Type: multipart/form-data"   
-          -F 'allureResults=@/allure-results.zip;type=application/zip' 
+          -F 'allureResults=@allure-results.zip;type=application/zip' 
           | python3 -c "import sys, json; print(json.load(sys.stdin)['uuid']);")
           &&
           DATA="{\"reportSpec\":{\"path\":[\"github_test\"],\"executorInfo\":{\"name\":\"github\",\"type\":\"actions\",\"url\":\"url_content\",\"buildOrder\":0,\"buildName\":\"build_name_content\",\"buildUrl\":\"build_url_content\",\"reportName\":\"report_name_content\",\"reportUrl\":\"report_url_content\"}},\"results\":[\"$UUID\"],\"deleteResults\":true}"
