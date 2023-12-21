@@ -35,7 +35,6 @@ jobs:
       - name: download artifacts
         uses: actions/download-artifact@v3
       - run: sudo apt install zip && zip -r allure-results.zip allure-results
-      - run: ls && pwd
       - run: >
           UUID=$(curl -X "POST"   "http://${{ secrets.SERVER }}/api/result"
           -H "accept: */*"
